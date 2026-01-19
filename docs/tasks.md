@@ -118,18 +118,18 @@
 ## Phase 4: FastAPI 백엔드 개발
 
 ### Task 4.1: FastAPI 앱 설정 (`app/main.py`)
-- [ ] FastAPI 앱 인스턴스 생성
-- [ ] CORS 미들웨어 설정 (Streamlit 연동용)
-- [ ] chat 라우터 등록
-- [ ] health check 엔드포인트 추가 (`GET /health`)
+- [x] FastAPI 앱 인스턴스 생성
+- [x] CORS 미들웨어 설정 (Streamlit 연동용)
+- [x] chat 라우터 등록
+- [x] health check 엔드포인트 추가 (`GET /health`)
 
 ### Task 4.2: Chat API 엔드포인트 구현 (`app/api/chat.py`)
-- [ ] `ChatRequest` Pydantic 모델 정의
+- [x] `ChatRequest` Pydantic 모델 정의
   ```python
   class ChatRequest(BaseModel):
       message: str
   ```
-- [ ] `POST /chat/stream` 엔드포인트 구현
+- [x] `POST /chat/stream` 엔드포인트 구현
   - `ChatRequest` 입력 받음
   - `sse_starlette.sse.EventSourceResponse` 사용
   - RAG 서비스의 `generate_stream()` 호출
@@ -143,19 +143,19 @@ data: [DONE]
 ```
 
 ### Task 4.3: 라우터 연결
-- [ ] `app/api/__init__.py`에서 chat 라우터 export
-- [ ] `app/main.py`에서 라우터 include
+- [x] `app/api/__init__.py`에서 chat 라우터 export
+- [x] `app/main.py`에서 라우터 include
 
 ---
 
 ## Phase 5: Streamlit UI 개발
 
 ### Task 5.1: Streamlit 채팅 UI 구현 (`ui/streamlit_app.py`)
-- [ ] 페이지 설정 (title, layout)
-- [ ] 채팅 히스토리 session_state 관리
-- [ ] 채팅 입력창 구현 (`st.chat_input`)
-- [ ] 채팅 메시지 표시 (`st.chat_message`)
-- [ ] FastAPI 스트리밍 API 호출
+- [x] 페이지 설정 (title, layout)
+- [x] 채팅 히스토리 session_state 관리
+- [x] 채팅 입력창 구현 (`st.chat_input`)
+- [x] 채팅 메시지 표시 (`st.chat_message`)
+- [x] FastAPI 스트리밍 API 호출
   - `requests` 또는 `httpx`로 SSE 스트리밍 처리
   - 실시간 토큰 표시 (`st.write_stream` 또는 placeholder)
 
@@ -170,6 +170,37 @@ data: [DONE]
 ├─────────────────────────────┤
 │  [메시지 입력창]            │
 └─────────────────────────────┘
+```
+
+---
+
+## Phase 5.5: 모니터링 설정 (LangSmith & LangGraph Studio)
+
+### Task 5.5.1: LangSmith 모니터링 설정
+- [x] `pyproject.toml`에 `langsmith`, `langgraph` 의존성 추가
+- [x] `.env.example`에 LangSmith 환경 변수 추가
+  ```env
+  LANGSMITH_TRACING=true
+  LANGSMITH_API_KEY=your_langsmith_api_key_here
+  LANGSMITH_PROJECT=chatbot-demo
+  LANGSMITH_ENDPOINT=https://api.smith.langchain.com
+  ```
+- [x] `app/core/config.py`에 LangSmith 설정 및 자동 구성 추가
+- [x] `langgraph.json` 파일 생성 (LangGraph Studio 연동용)
+
+**사용 방법**:
+1. [LangSmith](https://smith.langchain.com/)에서 API 키 발급
+2. `.env` 파일에 `LANGSMITH_API_KEY` 설정
+3. FastAPI 서버 실행 시 자동으로 트레이싱 활성화
+4. LangSmith 대시보드에서 실시간 모니터링
+
+**LangGraph Studio 사용**:
+```bash
+# LangGraph CLI 설치
+pip install langgraph-cli
+
+# 개발 서버 실행
+langgraph dev
 ```
 
 ---
@@ -209,10 +240,11 @@ data: [DONE]
 | 3 | 벡터 스토어 생성 함수 구현 | [x] |
 | 3 | Retriever 함수 구현 | [x] |
 | 3 | 스트리밍 응답 생성 함수 구현 | [x] |
-| 4 | FastAPI 앱 설정 | [ ] |
-| 4 | Chat API 엔드포인트 구현 | [ ] |
-| 4 | 라우터 연결 | [ ] |
-| 5 | Streamlit 채팅 UI 구현 | [ ] |
+| 4 | FastAPI 앱 설정 | [x] |
+| 4 | Chat API 엔드포인트 구현 | [x] |
+| 4 | 라우터 연결 | [x] |
+| 5 | Streamlit 채팅 UI 구현 | [x] |
+| 5.5 | LangSmith 모니터링 설정 | [x] |
 | 6 | 테스트 문서 준비 | [ ] |
 | 6 | API 테스트 | [ ] |
 | 6 | E2E 테스트 | [ ] |

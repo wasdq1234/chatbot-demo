@@ -16,4 +16,8 @@ dependencies = [
     "python-dotenv",
     "streamlit",
     "sse-starlette",
+    "httpx",
+    "langsmith",
+    "langgraph",
+    "langgraph-cli[inmem]>=0.4.11",
 ]

@@ -13,3 +13,6 @@ data/chroma/
 # IDE
 .vscode/
 .idea/
+
+# LangGraph
+.langgraph_api/
