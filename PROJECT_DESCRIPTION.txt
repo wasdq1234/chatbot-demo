@@ -1,0 +1,139 @@
+================================================================================
+                         RAG Chatbot Demo Project
+================================================================================
+
+1. 프로젝트 개요
+--------------------------------------------------------------------------------
+RAG(Retrieval-Augmented Generation) 기반 대화형 AI 챗봇 MVP 프로젝트입니다.
+사용자 질문에 대해 문서 기반 컨텍스트를 활용하여 정확한 답변을 제공합니다.
+
+주요 특징:
+- 문서 기반 RAG 시스템
+- 실시간 스트리밍 응답 (SSE)
+- LangSmith/LangGraph Studio 모니터링 지원
+
+
+2. 기술 스택
+--------------------------------------------------------------------------------
+Backend:
+  - FastAPI: REST API 서버
+  - LangChain: LLM 오케스트레이션
+  - LangGraph: 상태 기반 워크플로우 그래프
+  - ChromaDB: 벡터 데이터베이스
+  - OpenAI API: LLM (gpt-4o-mini) 및 임베딩
+
+Frontend:
+  - Streamlit: 테스트용 채팅 UI
+
+Monitoring:
+  - LangSmith: LLM 트레이싱 및 모니터링
+  - LangGraph Studio: 그래프 시각화 및 디버깅
+
+Package Manager:
+  - uv: Python 패키지 관리
+
+
+3. 디렉토리 구조
+--------------------------------------------------------------------------------
+chatbot-demo/
+├── app/
+│   ├── __init__.py
+│   ├── main.py                 # FastAPI 앱 엔트리포인트
+│   ├── api/
+│   │   ├── __init__.py
+│   │   └── chat.py             # 채팅 API 엔드포인트
+│   ├── core/
+│   │   ├── __init__.py
+│   │   └── config.py           # 환경 설정
+│   └── services/
+│       ├── __init__.py
+│       ├── rag.py              # RAG 서비스 (문서 로드, 검색, 생성)
+│       └── graph.py            # LangGraph 그래프 정의
+├── ui/
+│   └── streamlit_app.py        # Streamlit 채팅 UI
+├── data/
+│   └── documents/              # RAG용 문서 저장 디렉토리
+├── docs/
+│   ├── requirements.md         # 요구사항 문서
+│   ├── TRD.md                  # 기술 설계 문서
+│   └── tasks.md                # 개발 태스크 목록
+├── .env                        # 환경 변수 (gitignore)
+├── .env.example                # 환경 변수 템플릿
+├── langgraph.json              # LangGraph Studio 설정
+├── pyproject.toml              # 프로젝트 의존성
+└── uv.lock                     # 의존성 락 파일
+
+
+4. 주요 기능
+--------------------------------------------------------------------------------
+4.1 문서 로드 및 벡터화
+  - data/documents/ 폴더의 .txt 파일 자동 로드
+  - RecursiveCharacterTextSplitter로 청크 분할 (1000자, 200자 오버랩)
+  - OpenAI Embeddings로 벡터화
+  - ChromaDB에 영구 저장
+
+4.2 RAG 기반 질의응답
+  - 사용자 질문과 유사한 상위 3개 문서 검색
+  - 검색된 컨텍스트와 함께 LLM에 질문 전달
+  - 스트리밍 방식으로 토큰 단위 응답
+
+4.3 API 엔드포인트
+  - GET  /health        : 서버 상태 확인
+  - POST /chat/stream   : SSE 스트리밍 채팅 응답
+
+4.4 LangGraph 워크플로우
+  - retrieve 노드: 관련 문서 검색
+  - generate 노드: LLM 응답 생성
+  - START -> retrieve -> generate -> END
+
+
+5. 설치 및 실행
+--------------------------------------------------------------------------------
+5.1 환경 설정
+  # 저장소 클론
+  git clone https://github.com/wasdq1234/chatbot-demo.git
+  cd chatbot-demo
+
+  # 의존성 설치
+  uv sync
+
+  # 환경 변수 설정
+  cp .env.example .env
+  # .env 파일에 OPENAI_API_KEY 입력
+
+5.2 문서 준비
+  # data/documents/ 폴더에 .txt 문서 추가
+  # 예: data/documents/sample.txt
+
+5.3 서버 실행
+  # FastAPI 서버 실행
+  uvicorn app.main:app --reload
+
+  # 다른 터미널에서 Streamlit UI 실행
+  streamlit run ui/streamlit_app.py
+
+5.4 LangGraph Studio 실행 (선택)
+  langgraph dev
+
+
+6. API 사용 예시
+--------------------------------------------------------------------------------
+# Health Check
+curl http://localhost:8000/health
+
+# 채팅 요청 (SSE 스트리밍)
+curl -X POST http://localhost:8000/chat/stream \
+  -H "Content-Type: application/json" \
+  -d '{"message": "안녕하세요, 질문이 있습니다."}'
+
+
+7. 환경 변수
+--------------------------------------------------------------------------------
+필수:
+  OPENAI_API_KEY          : OpenAI API 키
+
+선택 (LangSmith 모니터링):
+  LANGSMITH_TRACING       : 트레이싱 활성화 (true/false)
+  LANGSMITH_API_KEY       : LangSmith API 키
+  LANGSMITH_PROJECT       : 프로젝트 이름 (기본값: chatbot-demo)
+  LANGSMITH_ENDPOINT      : LangSmith 엔드포인트
