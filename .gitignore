@@ -1,0 +1,15 @@
+# Environment
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+
+# Chroma DB
+data/chroma/
+
+# IDE
+.vscode/
+.idea/

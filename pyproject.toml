@@ -1,0 +1,16 @@
+[project]
+name = "chatbot-demo"
+version = "0.1.0"
+description = "RAG 기반 대화형 AI Chatbot MVP"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    "langchain",
+    "langchain-openai",
+    "chromadb",
+    "python-dotenv",
+    "streamlit",
+    "sse-starlette",
+]
