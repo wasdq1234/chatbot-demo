@@ -43,14 +43,14 @@
 ## Phase 2: Core 모듈 개발
 
 ### Task 2.1: Config 모듈 구현 (`app/core/config.py`)
-- [ ] python-dotenv를 사용한 환경 변수 로드
-- [ ] `Settings` 클래스 구현
+- [x] python-dotenv를 사용한 환경 변수 로드
+- [x] `Settings` 클래스 구현
   ```python
   class Settings:
       OPENAI_API_KEY: str
       CHROMA_PERSIST_DIR: str = "./data/chroma"
   ```
-- [ ] settings 인스턴스 export
+- [x] settings 인스턴스 export
 
 **파일 위치**: `app/core/config.py`
 
@@ -64,7 +64,7 @@
 ## Phase 3: RAG 서비스 개발
 
 ### Task 3.1: 문서 로드 함수 구현 (`app/services/rag.py`)
-- [ ] `load_documents()` 함수 구현
+- [x] `load_documents()` 함수 구현
   - `data/documents/` 경로에서 문서 로드
   - LangChain `TextLoader` 또는 `DirectoryLoader` 사용
   - `RecursiveCharacterTextSplitter`로 청크 분할
@@ -74,7 +74,7 @@
 **출력**: `List[Document]`
 
 ### Task 3.2: 벡터 스토어 생성 함수 구현
-- [ ] `create_vectorstore()` 함수 구현
+- [x] `create_vectorstore()` 함수 구현
   - OpenAI Embeddings 사용
   - Chroma 벡터 DB 생성
   - persist_directory 설정으로 영구 저장
@@ -83,7 +83,7 @@
 **출력**: `Chroma` 인스턴스
 
 ### Task 3.3: Retriever 함수 구현
-- [ ] `get_retriever()` 함수 구현
+- [x] `get_retriever()` 함수 구현
   - 기존 Chroma DB 로드 또는 새로 생성
   - `as_retriever()` 메서드로 retriever 반환
   - search_kwargs: k=3 (상위 3개 문서 검색)
@@ -91,7 +91,7 @@
 **출력**: `VectorStoreRetriever`
 
 ### Task 3.4: 스트리밍 응답 생성 함수 구현
-- [ ] `generate_stream()` async generator 함수 구현
+- [x] `generate_stream()` async generator 함수 구현
   - 사용자 메시지 입력 받음
   - retriever로 관련 문서 검색
   - ChatOpenAI 모델 사용 (streaming=True)
@@ -204,11 +204,11 @@ data: [DONE]
 | 1 | 디렉토리 구조 생성 | [x] |
 | 1 | 의존성 설정 | [x] |
 | 1 | 환경 설정 파일 생성 | [x] |
-| 2 | Config 모듈 구현 | [ ] |
-| 3 | 문서 로드 함수 구현 | [ ] |
-| 3 | 벡터 스토어 생성 함수 구현 | [ ] |
-| 3 | Retriever 함수 구현 | [ ] |
-| 3 | 스트리밍 응답 생성 함수 구현 | [ ] |
+| 2 | Config 모듈 구현 | [x] |
+| 3 | 문서 로드 함수 구현 | [x] |
+| 3 | 벡터 스토어 생성 함수 구현 | [x] |
+| 3 | Retriever 함수 구현 | [x] |
+| 3 | 스트리밍 응답 생성 함수 구현 | [x] |
 | 4 | FastAPI 앱 설정 | [ ] |
 | 4 | Chat API 엔드포인트 구현 | [ ] |
 | 4 | 라우터 연결 | [ ] |
